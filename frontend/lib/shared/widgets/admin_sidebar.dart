@@ -64,7 +64,10 @@ class AdminSidebar extends StatelessWidget {
               separatorBuilder: (_, _) => const SizedBox(height: 2),
               itemBuilder: (context, index) {
                 final destination = AdminNavigation.destinations[index];
-                final selected = destination.path == currentPath;
+                final selected =
+                    destination.path != null &&
+                    (destination.path == currentPath ||
+                        currentPath.startsWith('${destination.path}/'));
                 final available = destination.path != null;
                 final String? badge;
                 if (destination.path == AdminNavigation.verificationPath &&
