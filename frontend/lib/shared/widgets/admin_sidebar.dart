@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/constants/admin_navigation.dart';
 import '../../core/theme/design_tokens.dart';
+import '../../features/auth/controllers/demo_session_controller.dart';
+import 'novasys_brand_mark.dart';
 
 class AdminSidebar extends StatelessWidget {
   const AdminSidebar({super.key, required this.currentPath, this.onNavigate});
@@ -19,7 +22,7 @@ class AdminSidebar extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(24, 24, 24, 20),
             child: Row(
               children: [
-                _BrandMark(),
+                NovaSysBrandMark(),
                 SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -133,19 +136,20 @@ class AdminSidebar extends StatelessWidget {
               },
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(16),
+          Padding(
+            padding: const EdgeInsets.all(16),
             child: Tooltip(
-              message: 'Sign out is unavailable in this mock workspace',
+              message: 'End this demo session',
               child: TextButton(
-                onPressed: null,
-                style: ButtonStyle(
+                onPressed: () =>
+                    context.read<DemoSessionController>().signOut(),
+                style: const ButtonStyle(
                   alignment: Alignment.centerLeft,
                   foregroundColor: WidgetStatePropertyAll(
                     DesignTokens.sidebarText,
                   ),
                 ),
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(Icons.logout, size: 18),
                     SizedBox(width: 12),
@@ -157,44 +161,6 @@ class AdminSidebar extends StatelessWidget {
           ),
         ],
       ),
-    ),
-  );
-}
-
-class _BrandMark extends StatelessWidget {
-  const _BrandMark();
-  @override
-  Widget build(BuildContext context) => Container(
-    width: 36,
-    height: 36,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(11),
-    ),
-    child: Stack(
-      alignment: Alignment.center,
-      children: [
-        const Text(
-          'N',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: DesignTokens.primary,
-          ),
-        ),
-        Positioned(
-          top: 9,
-          right: 9,
-          child: Container(
-            width: 5,
-            height: 5,
-            decoration: const BoxDecoration(
-              color: DesignTokens.accent,
-              shape: BoxShape.circle,
-            ),
-          ),
-        ),
-      ],
     ),
   );
 }

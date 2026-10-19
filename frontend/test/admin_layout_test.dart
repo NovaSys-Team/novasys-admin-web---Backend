@@ -2,7 +2,9 @@ import 'dart:ui' show Tristate;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:novasys_admin_web/app.dart';
+
+import 'support/test_app.dart';
+
 import 'package:novasys_admin_web/core/constants/admin_navigation.dart';
 import 'package:novasys_admin_web/core/theme/design_tokens.dart';
 import 'package:novasys_admin_web/shared/widgets/admin_header.dart';
@@ -20,7 +22,7 @@ void main() {
     tester,
   ) async {
     viewport(tester, const Size(1440, 900));
-    await tester.pumpWidget(const NovaSysApp());
+    await tester.pumpWidget(authenticatedApp());
     await tester.pumpAndSettle();
     expect(find.byType(AdminSidebar), findsOneWidget);
     expect(
@@ -55,7 +57,7 @@ void main() {
     tester,
   ) async {
     viewport(tester, const Size(375, 700));
-    await tester.pumpWidget(const NovaSysApp());
+    await tester.pumpWidget(authenticatedApp());
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.byKey(const ValueKey('transport-bar-0')));
     await tester.tap(find.byKey(const ValueKey('transport-bar-0')));
@@ -74,7 +76,7 @@ void main() {
     tester,
   ) async {
     viewport(tester, const Size(1440, 900));
-    await tester.pumpWidget(const NovaSysApp());
+    await tester.pumpWidget(authenticatedApp());
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.byKey(const ValueKey('transport-bar-0')));
     await tester.tap(find.byKey(const ValueKey('transport-bar-0')));
@@ -91,7 +93,7 @@ void main() {
     await tester.pumpWidget(
       MediaQuery(
         data: const MediaQueryData(textScaler: TextScaler.linear(1.5)),
-        child: const NovaSysApp(),
+        child: authenticatedApp(),
       ),
     );
     await tester.pumpAndSettle();

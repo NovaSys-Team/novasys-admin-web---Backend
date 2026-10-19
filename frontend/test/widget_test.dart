@@ -1,8 +1,12 @@
+import 'package:provider/provider.dart';
+
 import 'dart:ui' show PointerDeviceKind;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:novasys_admin_web/app.dart';
+
+import 'support/test_app.dart';
+
 import 'package:novasys_admin_web/core/routes/app_router.dart';
 import 'package:novasys_admin_web/features/dashboard/widgets/summary_card.dart';
 
@@ -18,7 +22,7 @@ void main() {
     tester,
   ) async {
     size(tester, 1440);
-    await tester.pumpWidget(const NovaSysApp());
+    await tester.pumpWidget(authenticatedApp());
     await tester.pumpAndSettle();
     expect(find.bySemanticsLabel('Admin overview'), findsOneWidget);
     expect(find.byType(SummaryCard), findsNWidgets(6));
@@ -68,7 +72,7 @@ void main() {
     tester,
   ) async {
     size(tester, 1440);
-    await tester.pumpWidget(const NovaSysApp());
+    await tester.pumpWidget(authenticatedApp());
     await tester.pumpAndSettle();
     final bar = find.byKey(const ValueKey('transport-bar-0'));
     await tester.ensureVisible(bar);
@@ -94,7 +98,7 @@ void main() {
     tester,
   ) async {
     size(tester, 1440);
-    await tester.pumpWidget(const NovaSysApp());
+    await tester.pumpWidget(authenticatedApp());
     await tester.pumpAndSettle();
     await tester.tap(find.text('Overdue invoices'));
     await tester.pumpAndSettle();
@@ -117,9 +121,18 @@ void main() {
   });
 
   testWidgets('Direct route and unknown route recovery work', (tester) async {
-    final router = AppRouter.create(initialLocation: AppRouter.dashboardPath);
+    final session = authenticatedSession();
+    final router = AppRouter.create(
+      session: session,
+      initialLocation: AppRouter.dashboardPath,
+    );
     addTearDown(router.dispose);
-    await tester.pumpWidget(MaterialApp.router(routerConfig: router));
+    await tester.pumpWidget(
+      ChangeNotifierProvider.value(
+        value: session,
+        child: MaterialApp.router(routerConfig: router),
+      ),
+    );
     await tester.pumpAndSettle();
     expect(find.bySemanticsLabel('Admin overview'), findsOneWidget);
     router.go('/missing');
@@ -139,7 +152,7 @@ void main() {
       tester,
     ) async {
       size(tester, width);
-      await tester.pumpWidget(const NovaSysApp());
+      await tester.pumpWidget(authenticatedApp());
       await tester.pumpAndSettle();
       expect(find.byType(SummaryCard), findsNWidgets(6));
       final first = tester.getTopLeft(find.byType(SummaryCard).at(0));
