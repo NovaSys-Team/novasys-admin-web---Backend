@@ -1,0 +1,151 @@
+import 'driver_application.dart';
+
+/// Fictional demo applications transcribed from A02 and A02.2 where supplied.
+abstract final class DriverVerificationMockData {
+  static const defaultNote =
+      'Insurance photo is blurry. Please upload a clear photo of the full certificate.';
+  static const nimalDocuments = [
+    DriverDocument(
+      id: 'licence',
+      name: 'Driving licence',
+      scanLabel: '[Driving licence scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Valid to 2030',
+    ),
+    DriverDocument(
+      id: 'nic',
+      name: 'NIC',
+      scanLabel: '[NIC scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Matches name',
+    ),
+    DriverDocument(
+      id: 'insurance',
+      name: 'Insurance',
+      scanLabel: '[Insurance scan]',
+      status: DocumentStatus.unreadable,
+      statusText: 'Unreadable photo',
+    ),
+    DriverDocument(
+      id: 'revenue',
+      name: 'Revenue licence',
+      scanLabel: '[Revenue licence scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Valid to Mar 2027',
+    ),
+    DriverDocument(
+      id: 'fitness',
+      name: 'Fitness certificate',
+      scanLabel: '[Fitness certificate scan]',
+      status: DocumentStatus.expiring,
+      statusText: 'Expires in 26 days',
+    ),
+    DriverDocument(
+      id: 'police',
+      name: 'Police clearance',
+      scanLabel: '[Police clearance scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Issued Sep 2026',
+    ),
+  ];
+  static const readyDocuments = [
+    DriverDocument(
+      id: 'licence',
+      name: 'Driving licence',
+      scanLabel: '[Driving licence scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Valid to 2028',
+    ),
+    DriverDocument(
+      id: 'nic',
+      name: 'NIC',
+      scanLabel: '[NIC scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Matches name',
+    ),
+    DriverDocument(
+      id: 'insurance',
+      name: 'Insurance',
+      scanLabel: '[Insurance scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Valid to Jan 2027',
+    ),
+    DriverDocument(
+      id: 'revenue',
+      name: 'Revenue licence',
+      scanLabel: '[Revenue licence scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Valid',
+    ),
+    DriverDocument(
+      id: 'fitness',
+      name: 'Fitness certificate',
+      scanLabel: '[Fitness certificate scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Valid',
+    ),
+    DriverDocument(
+      id: 'police',
+      name: 'Police clearance',
+      scanLabel: '[Police clearance scan]',
+      status: DocumentStatus.valid,
+      statusText: 'Issued Oct 2026',
+    ),
+  ];
+  static const applications = [
+    DriverApplication(
+      id: 'nimal',
+      name: 'Nimal Silva',
+      initials: 'NS',
+      avatarIndex: 0,
+      subtitle: 'Re-upload · 2 days waiting',
+      phone: '+94 71 220 1984',
+      nic: '198512345678',
+      vehicle: 'Nissan Caravan · WP KA–2210 · 12 seats',
+      serviceArea: 'Rajagiriya, Kotte',
+      applied: '17 Oct 2026',
+      documents: nimalDocuments,
+      note: defaultNote,
+    ),
+    DriverApplication(
+      id: 'tharindu',
+      name: 'Tharindu Rajapaksha',
+      initials: 'TR',
+      avatarIndex: 1,
+      subtitle: 'New · 1 day waiting',
+      phone: '+94 77 845 1120',
+      nic: '199023456789',
+      vehicle: 'Toyota HiAce · WP PJ–8812 · 14 seats',
+      serviceArea: 'Maharagama',
+      applied: '18 Oct 2026',
+      documents: readyDocuments,
+      note: defaultNote,
+    ),
+    DriverApplication(
+      id: 'malini',
+      name: 'Malini Wijesekara',
+      initials: 'MW',
+      avatarIndex: 2,
+      subtitle: 'New · today',
+      phone: 'Demo contact',
+      nic: 'DEMO-MW',
+      vehicle: 'Demo school van · 12 seats',
+      serviceArea: 'Kotte',
+      applied: '19 Oct 2026',
+      documents: nimalDocuments,
+    ),
+    DriverApplication(
+      id: 'kasun',
+      name: 'Kasun Abeywardena',
+      initials: 'KA',
+      avatarIndex: 3,
+      subtitle: 'Renewal · licence updated',
+      phone: 'Demo contact',
+      nic: 'DEMO-KA',
+      vehicle: 'Demo school van · 14 seats',
+      serviceArea: 'Maharagama',
+      applied: '19 Oct 2026',
+      documents: readyDocuments,
+    ),
+  ];
+}

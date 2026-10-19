@@ -11,12 +11,18 @@ class AdminDestination {
 
 abstract final class AdminNavigation {
   static const dashboardPath = '/dashboard';
+  static const verificationPath = '/driver-verification';
   static const destinations = [
     AdminDestination('Overview', Icons.bar_chart_outlined, path: dashboardPath),
     AdminDestination('Live trips', Icons.location_on_outlined, badge: 'SOS 1'),
     AdminDestination('Students', Icons.people_outline),
     AdminDestination('Drivers & vehicles', Icons.directions_bus_outlined),
-    AdminDestination('Verification', Icons.verified_user_outlined, badge: '4'),
+    AdminDestination(
+      'Verification',
+      Icons.verified_user_outlined,
+      path: verificationPath,
+      badge: '4',
+    ),
     AdminDestination('Payments', Icons.credit_card_outlined),
     AdminDestination('Send notification', Icons.campaign_outlined),
     AdminDestination('Reports', Icons.description_outlined),

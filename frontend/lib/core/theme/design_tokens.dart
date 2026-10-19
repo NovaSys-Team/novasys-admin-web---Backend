@@ -15,6 +15,7 @@ abstract final class DesignTokens {
   static const danger = Color(0xFFD92D33);
   static const sidebarWidth = 232.7;
   static const sidebarBreakpoint = 1024.0;
+  static const compactPageHeaderWidth = 600.0;
   static const shellPadding = 32.0;
   static const spacing = 16.0;
   static const pagePadding = 24.0;

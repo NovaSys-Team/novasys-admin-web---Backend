@@ -6,9 +6,21 @@ import 'admin_sidebar.dart';
 
 /// Persistent admin chrome; routed features provide only their page content.
 class AdminShell extends StatelessWidget {
-  const AdminShell({super.key, required this.currentPath, required this.child});
+  const AdminShell({
+    super.key,
+    required this.currentPath,
+    required this.child,
+    this.title,
+    this.subtitle,
+    this.headerActions,
+    this.verificationCount,
+  });
   final String currentPath;
   final Widget child;
+  final String? title;
+  final String? subtitle;
+  final Widget? headerActions;
+  final int? verificationCount;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -23,6 +35,7 @@ class AdminShell extends StatelessWidget {
                 child: Builder(
                   builder: (context) => AdminSidebar(
                     currentPath: currentPath,
+                    verificationCount: verificationCount,
                     onNavigate: () => Scaffold.of(context).closeDrawer(),
                   ),
                 ),
@@ -32,13 +45,19 @@ class AdminShell extends StatelessWidget {
             if (desktop)
               SizedBox(
                 width: DesignTokens.sidebarWidth,
-                child: AdminSidebar(currentPath: currentPath),
+                child: AdminSidebar(
+                  currentPath: currentPath,
+                  verificationCount: verificationCount,
+                ),
               ),
             Expanded(
               child: Column(
                 children: [
                   Builder(
                     builder: (context) => AdminHeader(
+                      title: title,
+                      subtitle: subtitle,
+                      actions: headerActions,
                       onOpenMenu: desktop
                           ? null
                           : () => Scaffold.of(context).openDrawer(),

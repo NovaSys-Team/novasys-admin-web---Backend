@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 import '../../core/theme/design_tokens.dart';
 
 class AdminHeader extends StatelessWidget {
-  const AdminHeader({super.key, this.onOpenMenu});
+  const AdminHeader({
+    super.key,
+    this.onOpenMenu,
+    this.title,
+    this.subtitle,
+    this.actions,
+  });
   final VoidCallback? onOpenMenu;
+  final String? title;
+  final String? subtitle;
+  final Widget? actions;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -14,6 +23,59 @@ class AdminHeader extends StatelessWidget {
     ),
     child: LayoutBuilder(
       builder: (context, constraints) {
+        if (title != null) {
+          // Feature pages place their full heading in the scrollable content
+          // at narrow widths, leaving room for navigation and filter controls.
+          if (constraints.maxWidth < DesignTokens.compactPageHeaderWidth) {
+            return Row(
+              children: [
+                if (onOpenMenu != null)
+                  IconButton(
+                    tooltip: 'Open navigation',
+                    onPressed: onOpenMenu,
+                    icon: const Icon(Icons.menu),
+                  ),
+                const Spacer(),
+                ?actions,
+              ],
+            );
+          }
+          return Row(
+            children: [
+              if (onOpenMenu != null) ...[
+                IconButton(
+                  tooltip: 'Open navigation',
+                  onPressed: onOpenMenu,
+                  icon: const Icon(Icons.menu),
+                ),
+                const SizedBox(width: 8),
+              ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title!,
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(height: 1.2),
+                    ),
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle!,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: DesignTokens.mutedText,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              if (actions != null) ...[const SizedBox(width: 12), actions!],
+            ],
+          );
+        }
         final showSearch = constraints.maxWidth >= 850;
         return Row(
           children: [
