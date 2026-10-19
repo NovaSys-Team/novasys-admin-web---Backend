@@ -9,7 +9,12 @@ class PageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
-    padding: const EdgeInsets.all(DesignTokens.pagePadding),
+    padding: const EdgeInsets.fromLTRB(
+      DesignTokens.shellPadding,
+      0,
+      DesignTokens.shellPadding,
+      DesignTokens.shellPadding,
+    ),
     child: Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: DesignTokens.contentWidth),

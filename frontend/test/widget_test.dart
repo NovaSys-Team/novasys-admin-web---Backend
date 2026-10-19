@@ -55,7 +55,7 @@ void main() {
       expect(find.byType(SummaryCard), findsNWidgets(3));
       final first = tester.getTopLeft(find.byType(SummaryCard).at(0));
       final last = tester.getTopLeft(find.byType(SummaryCard).at(2));
-      if (width >= 1024) {
+      if (width >= 1440) {
         expect(last.dy, first.dy);
         expect(last.dx, greaterThan(first.dx));
       } else {
