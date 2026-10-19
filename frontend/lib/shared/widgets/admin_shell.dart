@@ -14,6 +14,7 @@ class AdminShell extends StatelessWidget {
     this.subtitle,
     this.headerActions,
     this.verificationCount,
+    this.liveIncidentCount,
   });
   final String currentPath;
   final Widget child;
@@ -21,6 +22,7 @@ class AdminShell extends StatelessWidget {
   final String? subtitle;
   final Widget? headerActions;
   final int? verificationCount;
+  final int? liveIncidentCount;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -36,6 +38,7 @@ class AdminShell extends StatelessWidget {
                   builder: (context) => AdminSidebar(
                     currentPath: currentPath,
                     verificationCount: verificationCount,
+                    liveIncidentCount: liveIncidentCount,
                     onNavigate: () => Scaffold.of(context).closeDrawer(),
                   ),
                 ),
@@ -48,6 +51,7 @@ class AdminShell extends StatelessWidget {
                 child: AdminSidebar(
                   currentPath: currentPath,
                   verificationCount: verificationCount,
+                  liveIncidentCount: liveIncidentCount,
                 ),
               ),
             Expanded(
