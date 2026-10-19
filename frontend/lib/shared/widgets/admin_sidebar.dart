@@ -8,9 +8,15 @@ import '../../features/auth/controllers/demo_session_controller.dart';
 import 'novasys_brand_mark.dart';
 
 class AdminSidebar extends StatelessWidget {
-  const AdminSidebar({super.key, required this.currentPath, this.onNavigate});
+  const AdminSidebar({
+    super.key,
+    required this.currentPath,
+    this.onNavigate,
+    this.verificationCount,
+  });
   final String currentPath;
   final VoidCallback? onNavigate;
+  final int? verificationCount;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -58,6 +64,11 @@ class AdminSidebar extends StatelessWidget {
                 final destination = AdminNavigation.destinations[index];
                 final selected = destination.path == currentPath;
                 final available = destination.path != null;
+                final badge =
+                    destination.path == AdminNavigation.verificationPath &&
+                        verificationCount != null
+                    ? '$verificationCount'
+                    : destination.badge;
                 return Tooltip(
                   message: available
                       ? destination.label
@@ -101,7 +112,7 @@ class AdminSidebar extends StatelessWidget {
                           Icon(destination.icon, size: 18),
                           const SizedBox(width: 12),
                           Expanded(child: Text(destination.label)),
-                          if (destination.badge != null) ...[
+                          if (badge != null) ...[
                             const SizedBox(width: 4),
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -117,7 +128,7 @@ class AdminSidebar extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
-                                destination.badge!,
+                                badge,
                                 style: TextStyle(
                                   fontSize: 10,
                                   height: 1.2,
