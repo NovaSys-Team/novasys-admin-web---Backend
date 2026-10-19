@@ -47,7 +47,7 @@ void main() {
     );
     await tester.tap(overview);
     await tester.pumpAndSettle();
-    expect(find.text('Admin overview'), findsOneWidget);
+    expect(find.bySemanticsLabel('Admin overview'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -57,7 +57,8 @@ void main() {
     viewport(tester, const Size(375, 700));
     await tester.pumpWidget(const NovaSysApp());
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Switch mock session'));
+    await tester.ensureVisible(find.byKey(const ValueKey('transport-bar-0')));
+    await tester.tap(find.byKey(const ValueKey('transport-bar-0')));
     await tester.pump();
     await tester.tap(find.byTooltip('Open navigation'));
     await tester.pumpAndSettle();
@@ -65,7 +66,7 @@ void main() {
     await tester.tap(find.text('Overview'));
     await tester.pumpAndSettle();
     expect(find.text('NovaSys'), findsNothing);
-    expect(find.text('Afternoon session'), findsOneWidget);
+    expect(find.text('6 Oct: 452 students · Mock data'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -75,11 +76,12 @@ void main() {
     viewport(tester, const Size(1440, 900));
     await tester.pumpWidget(const NovaSysApp());
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Switch mock session'));
+    await tester.ensureVisible(find.byKey(const ValueKey('transport-bar-0')));
+    await tester.tap(find.byKey(const ValueKey('transport-bar-0')));
     await tester.pump();
     tester.view.physicalSize = const Size(375, 600);
     await tester.pumpAndSettle();
-    expect(find.text('Afternoon session'), findsOneWidget);
+    expect(find.text('6 Oct: 452 students · Mock data'), findsOneWidget);
     await tester.tap(find.byTooltip('Open navigation'));
     await tester.pumpAndSettle();
     await tester.drag(find.byType(ListView), const Offset(0, -500));

@@ -5,7 +5,7 @@ import 'design_tokens.dart';
 abstract final class AppTheme {
   static final light = ThemeData(
     useMaterial3: true,
-    fontFamily: 'Arial',
+    fontFamily: 'NovaSysSans',
     textTheme: const TextTheme(
       headlineSmall: TextStyle(
         fontSize: 28,
