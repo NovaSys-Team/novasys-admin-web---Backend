@@ -4,22 +4,30 @@ import 'package:provider/provider.dart';
 
 import '../../features/dashboard/controllers/dashboard_controller.dart';
 import '../../features/dashboard/views/dashboard_view.dart';
+import '../../shared/widgets/admin_shell.dart';
+import '../constants/admin_navigation.dart';
 
 abstract final class AppRouter {
-  static const dashboardPath = '/dashboard';
+  static const dashboardPath = AdminNavigation.dashboardPath;
   static const dashboardName = 'dashboard';
 
   static GoRouter create({String? initialLocation}) => GoRouter(
     initialLocation: initialLocation,
     routes: [
       GoRoute(path: '/', redirect: (_, _) => dashboardPath),
-      GoRoute(
-        path: dashboardPath,
-        name: dashboardName,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (_) => DashboardController(),
-          child: const DashboardView(),
-        ),
+      ShellRoute(
+        builder: (context, state, child) =>
+            AdminShell(currentPath: state.uri.path, child: child),
+        routes: [
+          GoRoute(
+            path: dashboardPath,
+            name: dashboardName,
+            builder: (context, state) => ChangeNotifierProvider(
+              create: (_) => DashboardController(),
+              child: const DashboardView(),
+            ),
+          ),
+        ],
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

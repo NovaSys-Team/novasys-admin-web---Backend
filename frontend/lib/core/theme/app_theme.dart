@@ -5,6 +5,20 @@ import 'design_tokens.dart';
 abstract final class AppTheme {
   static final light = ThemeData(
     useMaterial3: true,
+    fontFamily: 'Arial',
+    textTheme: const TextTheme(
+      headlineSmall: TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.6,
+      ),
+      headlineMedium: TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.6,
+      ),
+      bodyMedium: TextStyle(fontSize: 14, height: 1.4),
+    ),
     colorScheme: ColorScheme.fromSeed(
       seedColor: DesignTokens.primary,
       primary: DesignTokens.primary,
