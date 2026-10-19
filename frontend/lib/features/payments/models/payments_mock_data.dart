@@ -1,0 +1,105 @@
+import 'payment_records.dart';
+
+abstract final class PaymentsMockData {
+  static const overview = PaymentOverview(
+    invoiced: 540000000,
+    collected: 421000000,
+    overdue: 19550000,
+    toSettle: 400000000,
+    invoiceCount: 636,
+    overdueCount: 23,
+    driverCount: 42,
+  );
+  static const invoices = [
+    ParentInvoice(
+      id: 'INV–10–0418',
+      parent: 'Nadeesha P.',
+      students: 'Sanuli, Kavin',
+      driver: 'Ruwan J.',
+      amount: 1700000,
+      received: 0,
+      due: '22 Oct',
+      status: InvoiceStatus.pending,
+    ),
+    ParentInvoice(
+      id: 'INV–10–0377',
+      parent: 'Chathura G.',
+      students: 'Thisal',
+      driver: 'Ruwan J.',
+      amount: 850000,
+      received: 0,
+      due: '15 Oct',
+      status: InvoiceStatus.overdue,
+    ),
+    ParentInvoice(
+      id: 'INV–10–0352',
+      parent: 'Ishara M.',
+      students: 'Tharushi',
+      driver: 'Ruwan J.',
+      amount: 850000,
+      received: 850000,
+      due: '22 Oct',
+      status: InvoiceStatus.paid,
+    ),
+    ParentInvoice(
+      id: 'INV–10–0290',
+      parent: 'Ruwini S.',
+      students: 'Amaya',
+      driver: 'Kumari W.',
+      amount: 720000,
+      received: 360000,
+      due: '22 Oct',
+      status: InvoiceStatus.partial,
+    ),
+    ParentInvoice(
+      id: 'INV–10–0244',
+      parent: 'Pradeep B.',
+      students: 'Hiruni',
+      driver: 'Kumari W.',
+      amount: 720000,
+      received: 0,
+      due: '22 Oct',
+      status: InvoiceStatus.failed,
+    ),
+    ParentInvoice(
+      id: 'INV–10–0201',
+      parent: 'Dinesh K.',
+      students: 'Senuri',
+      driver: 'Dilshan F.',
+      amount: 780000,
+      received: 780000,
+      due: '22 Oct',
+      status: InvoiceStatus.paid,
+    ),
+  ];
+  static const settlements = [
+    DriverSettlement(
+      id: 'SET–10–001',
+      driver: 'Ruwan Jayasinghe',
+      period: 'October 2026',
+      collected: 10200000,
+      status: SettlementStatus.draft,
+    ),
+    DriverSettlement(
+      id: 'SET–10–002',
+      driver: 'Kumari Wickramasinghe',
+      period: 'October 2026',
+      collected: 13680000,
+      status: SettlementStatus.draft,
+    ),
+    DriverSettlement(
+      id: 'SET–10–003',
+      driver: 'Dilshan Fernando',
+      period: 'October 2026',
+      collected: 5460000,
+      status: SettlementStatus.draft,
+    ),
+    DriverSettlement(
+      id: 'SET–10–004',
+      driver: 'Asanka Perera',
+      period: 'October 2026',
+      collected: 9360000,
+      status: SettlementStatus.payoutFailed,
+    ),
+  ];
+}
