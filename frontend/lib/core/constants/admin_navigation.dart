@@ -12,9 +12,15 @@ class AdminDestination {
 abstract final class AdminNavigation {
   static const dashboardPath = '/dashboard';
   static const verificationPath = '/driver-verification';
+  static const liveTripsPath = '/live-trips';
   static const destinations = [
     AdminDestination('Overview', Icons.bar_chart_outlined, path: dashboardPath),
-    AdminDestination('Live trips', Icons.location_on_outlined, badge: 'SOS 1'),
+    AdminDestination(
+      'Live trips',
+      Icons.location_on_outlined,
+      path: liveTripsPath,
+      badge: 'SOS 1',
+    ),
     AdminDestination('Students', Icons.people_outline),
     AdminDestination('Drivers & vehicles', Icons.directions_bus_outlined),
     AdminDestination(

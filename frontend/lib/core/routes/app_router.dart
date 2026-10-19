@@ -10,6 +10,9 @@ import '../../features/auth/views/sign_in_view.dart';
 import '../../features/driver_verification/controllers/driver_verification_controller.dart';
 import '../../features/driver_verification/views/driver_verification_view.dart';
 import '../../features/driver_verification/widgets/verification_filters_button.dart';
+import '../../features/live_trips/controllers/live_trips_controller.dart';
+import '../../features/live_trips/views/live_trips_view.dart';
+import '../../features/live_trips/widgets/live_trip_summary.dart';
 import '../../shared/widgets/admin_shell.dart';
 import '../constants/admin_navigation.dart';
 
@@ -20,6 +23,8 @@ abstract final class AppRouter {
   static const signInName = 'sign-in';
   static const verificationPath = AdminNavigation.verificationPath;
   static const verificationName = 'driver-verification';
+  static const liveTripsPath = AdminNavigation.liveTripsPath;
+  static const liveTripsName = 'live-trips';
 
   static GoRouter create({
     required DemoSessionController session,
@@ -33,7 +38,9 @@ abstract final class AppRouter {
           path == dashboardPath ||
           path.startsWith('$dashboardPath/') ||
           path == verificationPath ||
-          path.startsWith('$verificationPath/');
+          path.startsWith('$verificationPath/') ||
+          path == liveTripsPath ||
+          path.startsWith('$liveTripsPath/');
       if (path == '/') return session.isSignedIn ? dashboardPath : signInPath;
       if (!session.isSignedIn && protected) return signInPath;
       if (session.isSignedIn && path == signInPath) return dashboardPath;
@@ -50,18 +57,35 @@ abstract final class AppRouter {
         ),
       ),
       ShellRoute(
-        builder: (context, state, child) => ChangeNotifierProvider(
-          create: (_) => DriverVerificationController(),
-          child: Consumer<DriverVerificationController>(
-            builder: (context, verification, _) {
+        builder: (context, state, child) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) => DriverVerificationController(),
+            ),
+            ChangeNotifierProvider(create: (_) => LiveTripsController()),
+          ],
+          child: Consumer2<DriverVerificationController, LiveTripsController>(
+            builder: (context, verification, live, _) {
               final reviewing = state.uri.path == verificationPath;
+              final watching = state.uri.path == liveTripsPath;
               return AdminShell(
                 currentPath: state.uri.path,
                 verificationCount: verification.pendingCount,
-                title: reviewing ? DriverVerificationView.title : null,
-                subtitle: reviewing ? DriverVerificationView.subtitle : null,
+                liveIncidentCount: live.activeIncidentCount,
+                title: reviewing
+                    ? DriverVerificationView.title
+                    : watching
+                    ? LiveTripsView.title
+                    : null,
+                subtitle: reviewing
+                    ? DriverVerificationView.subtitle
+                    : watching
+                    ? live.subtitle
+                    : null,
                 headerActions: reviewing
                     ? const VerificationFiltersButton()
+                    : watching
+                    ? const LiveTripsHeaderActions()
                     : null,
                 child: child,
               );
@@ -69,6 +93,11 @@ abstract final class AppRouter {
           ),
         ),
         routes: [
+          GoRoute(
+            path: liveTripsPath,
+            name: liveTripsName,
+            builder: (context, state) => const LiveTripsView(),
+          ),
           GoRoute(
             path: verificationPath,
             name: verificationName,

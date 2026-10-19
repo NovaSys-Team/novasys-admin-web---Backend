@@ -13,10 +13,12 @@ class AdminSidebar extends StatelessWidget {
     required this.currentPath,
     this.onNavigate,
     this.verificationCount,
+    this.liveIncidentCount,
   });
   final String currentPath;
   final VoidCallback? onNavigate;
   final int? verificationCount;
+  final int? liveIncidentCount;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -64,11 +66,18 @@ class AdminSidebar extends StatelessWidget {
                 final destination = AdminNavigation.destinations[index];
                 final selected = destination.path == currentPath;
                 final available = destination.path != null;
-                final badge =
-                    destination.path == AdminNavigation.verificationPath &&
-                        verificationCount != null
-                    ? '$verificationCount'
-                    : destination.badge;
+                final String? badge;
+                if (destination.path == AdminNavigation.verificationPath &&
+                    verificationCount != null) {
+                  badge = '$verificationCount';
+                } else if (destination.path == AdminNavigation.liveTripsPath &&
+                    liveIncidentCount != null) {
+                  badge = liveIncidentCount == 0
+                      ? null
+                      : 'SOS $liveIncidentCount';
+                } else {
+                  badge = destination.badge;
+                }
                 return Tooltip(
                   message: available
                       ? destination.label
