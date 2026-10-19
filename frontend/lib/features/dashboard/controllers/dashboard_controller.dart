@@ -1,25 +1,24 @@
 import 'package:flutter/foundation.dart';
 
+import '../models/dashboard_mock_data.dart';
 import '../models/dashboard_summary.dart';
 
 class DashboardController extends ChangeNotifier {
-  static const _morning = DashboardSummary(
-    activeTrips: 24,
-    pendingVerifications: 8,
-    openIncidents: 3,
-  );
-  static const _afternoon = DashboardSummary(
-    activeTrips: 18,
-    pendingVerifications: 5,
-    openIncidents: 1,
-  );
-  bool _isAfternoon = false;
+  List<SummaryMetric> get metrics => DashboardMockData.metrics;
+  List<AttentionItem> get attention => DashboardMockData.attention;
+  List<TransportDay> get days => DashboardMockData.days;
+  List<DashboardTrip> get trips => DashboardMockData.trips;
+  DashboardIncident get incident => DashboardMockData.incident;
+  int? _selectedDayIndex;
+  int? get selectedDayIndex => _selectedDayIndex;
+  TransportDay? get selectedDay =>
+      _selectedDayIndex == null ? null : days[_selectedDayIndex!];
+  int get totalTransported => days.fold(0, (sum, day) => sum + day.count);
 
-  String get sessionLabel => _isAfternoon ? 'Afternoon' : 'Morning';
-  DashboardSummary get summary => _isAfternoon ? _afternoon : _morning;
-
-  void toggleSession() {
-    _isAfternoon = !_isAfternoon;
+  void selectDay(int index) {
+    RangeError.checkValidIndex(index, days);
+    if (_selectedDayIndex == index) return;
+    _selectedDayIndex = index;
     notifyListeners();
   }
 }
