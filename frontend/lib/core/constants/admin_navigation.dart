@@ -15,6 +15,7 @@ abstract final class AdminNavigation {
   static const liveTripsPath = '/live-trips';
   static const paymentsPath = '/payments';
   static const supportPath = '/support';
+  static const driversVehiclesPath = '/drivers-vehicles';
   static const settlementsPath = '/payments/settlements';
   static const destinations = [
     AdminDestination('Overview', Icons.bar_chart_outlined, path: dashboardPath),
@@ -25,7 +26,11 @@ abstract final class AdminNavigation {
       badge: 'SOS 1',
     ),
     AdminDestination('Students', Icons.people_outline),
-    AdminDestination('Drivers & vehicles', Icons.directions_bus_outlined),
+    AdminDestination(
+      'Drivers & vehicles',
+      Icons.directions_bus_outlined,
+      path: driversVehiclesPath,
+    ),
     AdminDestination(
       'Verification',
       Icons.verified_user_outlined,
