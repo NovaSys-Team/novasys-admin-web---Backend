@@ -16,6 +16,8 @@ import '../../features/live_trips/widgets/live_trip_summary.dart';
 import '../../features/payments/controllers/payments_controller.dart';
 import '../../features/payments/views/payments_view.dart';
 import '../../features/payments/widgets/payment_styles.dart';
+import '../../features/support/controllers/support_controller.dart';
+import '../../features/support/views/support_view.dart';
 import '../../shared/widgets/admin_shell.dart';
 import '../constants/admin_navigation.dart';
 
@@ -28,6 +30,7 @@ abstract final class AppRouter {
   static const verificationName = 'driver-verification';
   static const liveTripsPath = AdminNavigation.liveTripsPath;
   static const liveTripsName = 'live-trips';
+  static const supportPath = AdminNavigation.supportPath;
   static const paymentsPath = AdminNavigation.paymentsPath;
   static const settlementsPath = AdminNavigation.settlementsPath;
   static const paymentsName = 'payments';
@@ -48,6 +51,8 @@ abstract final class AppRouter {
           path.startsWith('$verificationPath/') ||
           path == liveTripsPath ||
           path.startsWith('$liveTripsPath/') ||
+          path == supportPath ||
+          path.startsWith('$supportPath/') ||
           path == paymentsPath ||
           path.startsWith('$paymentsPath/');
       if (path == '/') return session.isSignedIn ? dashboardPath : signInPath;
@@ -73,6 +78,7 @@ abstract final class AppRouter {
             ),
             ChangeNotifierProvider(create: (_) => LiveTripsController()),
             ChangeNotifierProvider(create: (_) => PaymentsController()),
+            ChangeNotifierProvider(create: (_) => SupportController()),
           ],
           child: Consumer2<DriverVerificationController, LiveTripsController>(
             builder: (context, verification, live, _) {
@@ -85,21 +91,27 @@ abstract final class AppRouter {
                 currentPath: state.uri.path,
                 verificationCount: verification.pendingCount,
                 liveIncidentCount: live.activeIncidentCount,
-                title: reviewing
+                title: state.uri.path == supportPath
+                    ? SupportView.title
+                    : reviewing
                     ? DriverVerificationView.title
                     : watching
                     ? LiveTripsView.title
                     : paying
                     ? PaymentsView.title
                     : null,
-                subtitle: reviewing
+                subtitle: state.uri.path == supportPath
+                    ? SupportView.subtitle
+                    : reviewing
                     ? DriverVerificationView.subtitle
                     : watching
                     ? live.subtitle
                     : paying
                     ? PaymentsView.subtitle
                     : null,
-                headerActions: reviewing
+                headerActions: state.uri.path == supportPath
+                    ? const SupportHeaderActions()
+                    : reviewing
                     ? const VerificationFiltersButton()
                     : watching
                     ? const LiveTripsHeaderActions()
@@ -112,6 +124,11 @@ abstract final class AppRouter {
           ),
         ),
         routes: [
+          GoRoute(
+            path: supportPath,
+            name: 'support',
+            builder: (context, state) => const SupportView(),
+          ),
           GoRoute(
             path: paymentsPath,
             name: paymentsName,

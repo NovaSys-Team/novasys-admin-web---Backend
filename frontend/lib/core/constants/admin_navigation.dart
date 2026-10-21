@@ -14,6 +14,7 @@ abstract final class AdminNavigation {
   static const verificationPath = '/driver-verification';
   static const liveTripsPath = '/live-trips';
   static const paymentsPath = '/payments';
+  static const supportPath = '/support';
   static const settlementsPath = '/payments/settlements';
   static const destinations = [
     AdminDestination('Overview', Icons.bar_chart_outlined, path: dashboardPath),
@@ -38,7 +39,12 @@ abstract final class AdminNavigation {
     ),
     AdminDestination('Send notification', Icons.campaign_outlined),
     AdminDestination('Reports', Icons.description_outlined),
-    AdminDestination('Support', Icons.chat_bubble_outline, badge: '9'),
+    AdminDestination(
+      'Support',
+      Icons.chat_bubble_outline,
+      path: supportPath,
+      badge: '9',
+    ),
     AdminDestination('Routes & calendar', Icons.alt_route),
   ];
 }
