@@ -10,6 +10,7 @@ class AdminDestination {
 }
 
 abstract final class AdminNavigation {
+  static const reportsPath = '/reports';
   static const studentsPath = '/students';
   static const dashboardPath = '/dashboard';
   static const verificationPath = '/driver-verification';
@@ -45,7 +46,7 @@ abstract final class AdminNavigation {
       path: paymentsPath,
     ),
     AdminDestination('Send notification', Icons.campaign_outlined),
-    AdminDestination('Reports', Icons.description_outlined),
+    AdminDestination('Reports', Icons.description_outlined, path: reportsPath),
     AdminDestination(
       'Support',
       Icons.chat_bubble_outline,
