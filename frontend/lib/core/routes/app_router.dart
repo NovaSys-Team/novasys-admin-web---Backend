@@ -24,6 +24,8 @@ import '../../features/routes_calendar/controllers/routes_calendar_controller.da
 import '../../features/routes_calendar/views/routes_calendar_view.dart';
 import '../../features/students/controllers/students_controller.dart';
 import '../../features/students/views/students_view.dart';
+import '../../features/reports/controllers/reports_controller.dart';
+import '../../features/reports/views/reports_view.dart';
 import '../../shared/widgets/admin_shell.dart';
 import '../constants/admin_navigation.dart';
 
@@ -36,6 +38,7 @@ abstract final class AppRouter {
   static const verificationName = 'driver-verification';
   static const liveTripsPath = AdminNavigation.liveTripsPath;
   static const liveTripsName = 'live-trips';
+  static const reportsPath = AdminNavigation.reportsPath;
   static const studentsPath = AdminNavigation.studentsPath;
   static const supportPath = AdminNavigation.supportPath;
   static const driversVehiclesPath = AdminNavigation.driversVehiclesPath;
@@ -54,6 +57,8 @@ abstract final class AppRouter {
     redirect: (context, state) {
       final path = state.uri.path;
       final protected =
+          path == reportsPath ||
+          path.startsWith('$reportsPath/') ||
           path == studentsPath ||
           path.startsWith('$studentsPath/') ||
           path == dashboardPath ||
@@ -97,6 +102,7 @@ abstract final class AppRouter {
             ChangeNotifierProvider(create: (_) => DriversVehiclesController()),
             ChangeNotifierProvider(create: (_) => RoutesCalendarController()),
             ChangeNotifierProvider(create: (_) => StudentsController()),
+            ChangeNotifierProvider(create: (_) => ReportsController()),
           ],
           child: Consumer2<DriverVerificationController, LiveTripsController>(
             builder: (context, verification, live, _) {
@@ -109,7 +115,9 @@ abstract final class AppRouter {
                 currentPath: state.uri.path,
                 verificationCount: verification.pendingCount,
                 liveIncidentCount: live.activeIncidentCount,
-                title: state.uri.path == studentsPath
+                title: state.uri.path == reportsPath
+                    ? ReportsView.title
+                    : state.uri.path == studentsPath
                     ? StudentsView.title
                     : state.uri.path == routesCalendarPath
                     ? RoutesCalendarView.title
@@ -124,7 +132,9 @@ abstract final class AppRouter {
                     : paying
                     ? PaymentsView.title
                     : null,
-                subtitle: state.uri.path == studentsPath
+                subtitle: state.uri.path == reportsPath
+                    ? ReportsView.subtitle
+                    : state.uri.path == studentsPath
                     ? context.watch<StudentsController>().subtitle
                     : state.uri.path == routesCalendarPath
                     ? RoutesCalendarView.subtitle
@@ -160,6 +170,11 @@ abstract final class AppRouter {
           ),
         ),
         routes: [
+          GoRoute(
+            path: reportsPath,
+            name: 'reports',
+            builder: (context, state) => const ReportsView(),
+          ),
           GoRoute(
             path: studentsPath,
             name: 'students',
