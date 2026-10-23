@@ -10,6 +10,7 @@ class AdminDestination {
 }
 
 abstract final class AdminNavigation {
+  static const studentsPath = '/students';
   static const dashboardPath = '/dashboard';
   static const verificationPath = '/driver-verification';
   static const liveTripsPath = '/live-trips';
@@ -26,7 +27,7 @@ abstract final class AdminNavigation {
       path: liveTripsPath,
       badge: 'SOS 1',
     ),
-    AdminDestination('Students', Icons.people_outline),
+    AdminDestination('Students', Icons.people_outline, path: studentsPath),
     AdminDestination(
       'Drivers & vehicles',
       Icons.directions_bus_outlined,
