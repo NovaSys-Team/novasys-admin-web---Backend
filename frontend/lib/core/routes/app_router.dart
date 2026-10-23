@@ -20,6 +20,8 @@ import '../../features/support/controllers/support_controller.dart';
 import '../../features/support/views/support_view.dart';
 import '../../features/drivers_vehicles/controllers/drivers_vehicles_controller.dart';
 import '../../features/drivers_vehicles/views/drivers_vehicles_view.dart';
+import '../../features/routes_calendar/controllers/routes_calendar_controller.dart';
+import '../../features/routes_calendar/views/routes_calendar_view.dart';
 import '../../shared/widgets/admin_shell.dart';
 import '../constants/admin_navigation.dart';
 
@@ -34,6 +36,7 @@ abstract final class AppRouter {
   static const liveTripsName = 'live-trips';
   static const supportPath = AdminNavigation.supportPath;
   static const driversVehiclesPath = AdminNavigation.driversVehiclesPath;
+  static const routesCalendarPath = AdminNavigation.routesCalendarPath;
   static const paymentsPath = AdminNavigation.paymentsPath;
   static const settlementsPath = AdminNavigation.settlementsPath;
   static const paymentsName = 'payments';
@@ -49,6 +52,8 @@ abstract final class AppRouter {
       final path = state.uri.path;
       final protected =
           path == dashboardPath ||
+          path == routesCalendarPath ||
+          path.startsWith('$routesCalendarPath/') ||
           path.startsWith('$dashboardPath/') ||
           path == verificationPath ||
           path.startsWith('$verificationPath/') ||
@@ -85,6 +90,7 @@ abstract final class AppRouter {
             ChangeNotifierProvider(create: (_) => PaymentsController()),
             ChangeNotifierProvider(create: (_) => SupportController()),
             ChangeNotifierProvider(create: (_) => DriversVehiclesController()),
+            ChangeNotifierProvider(create: (_) => RoutesCalendarController()),
           ],
           child: Consumer2<DriverVerificationController, LiveTripsController>(
             builder: (context, verification, live, _) {
@@ -97,7 +103,9 @@ abstract final class AppRouter {
                 currentPath: state.uri.path,
                 verificationCount: verification.pendingCount,
                 liveIncidentCount: live.activeIncidentCount,
-                title: state.uri.path == driversVehiclesPath
+                title: state.uri.path == routesCalendarPath
+                    ? RoutesCalendarView.title
+                    : state.uri.path == driversVehiclesPath
                     ? DriversVehiclesView.title
                     : state.uri.path == supportPath
                     ? SupportView.title
@@ -108,7 +116,9 @@ abstract final class AppRouter {
                     : paying
                     ? PaymentsView.title
                     : null,
-                subtitle: state.uri.path == driversVehiclesPath
+                subtitle: state.uri.path == routesCalendarPath
+                    ? RoutesCalendarView.subtitle
+                    : state.uri.path == driversVehiclesPath
                     ? context.watch<DriversVehiclesController>().subtitle
                     : state.uri.path == supportPath
                     ? SupportView.subtitle
@@ -119,7 +129,9 @@ abstract final class AppRouter {
                     : paying
                     ? PaymentsView.subtitle
                     : null,
-                headerActions: state.uri.path == driversVehiclesPath
+                headerActions: state.uri.path == routesCalendarPath
+                    ? const RoutesCalendarHeaderActions()
+                    : state.uri.path == driversVehiclesPath
                     ? const FleetHeaderActions()
                     : state.uri.path == supportPath
                     ? const SupportHeaderActions()
@@ -136,6 +148,11 @@ abstract final class AppRouter {
           ),
         ),
         routes: [
+          GoRoute(
+            path: routesCalendarPath,
+            name: 'routes-calendar',
+            builder: (context, state) => const RoutesCalendarView(),
+          ),
           GoRoute(
             path: driversVehiclesPath,
             name: 'drivers-vehicles',
