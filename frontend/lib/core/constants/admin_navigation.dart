@@ -16,6 +16,7 @@ abstract final class AdminNavigation {
   static const paymentsPath = '/payments';
   static const supportPath = '/support';
   static const driversVehiclesPath = '/drivers-vehicles';
+  static const routesCalendarPath = '/routes-calendar';
   static const settlementsPath = '/payments/settlements';
   static const destinations = [
     AdminDestination('Overview', Icons.bar_chart_outlined, path: dashboardPath),
@@ -50,6 +51,10 @@ abstract final class AdminNavigation {
       path: supportPath,
       badge: '9',
     ),
-    AdminDestination('Routes & calendar', Icons.alt_route),
+    AdminDestination(
+      'Routes & calendar',
+      Icons.alt_route,
+      path: routesCalendarPath,
+    ),
   ];
 }
